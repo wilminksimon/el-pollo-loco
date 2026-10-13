@@ -11,6 +11,9 @@ function init() {
 }
 
 window.addEventListener("keydown", (e) => {
+
+    keyboard.lastKeyPress = new Date().getTime();
+
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;
     }
@@ -37,6 +40,7 @@ window.addEventListener("keydown", (e) => {
 })
 
 window.addEventListener("keyup", (e) => {
+
     if (e.keyCode == 39) {
         keyboard.RIGHT = false;
     }
