@@ -5,7 +5,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    statusbarHealth = new StatusbarHealth();
+    statusbarCoin = new StatusbarCoin();
     throwableObjects = [];
 
 
@@ -38,12 +39,30 @@ class World {
     }
 
     checkCollisions() {
+        this.checkCollisionCharacterEnemy()
+        this.checkCollisionCharacterCoin()
+    }
+
+    checkCollisionCharacterEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
+                this.statusbarHealth.setPercentage(this.character.energy);
             }
         });
+    }
+
+    checkCollisionCharacterCoin() {
+        for (let i = this.level.coin.length - 1; i >= 0; i--) {
+            let coin = this.level.coin[i];
+
+            if (this.character.isColliding(coin)) {
+                this.character.collectCoin();
+                this.level.coin.splice(i, 1);
+
+                this.statusbarCoin.setPercentage(this.character.coins);
+            }
+        }
     }
 
     draw() {
@@ -54,8 +73,8 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0); //Back
         // ----- Space for fixed Objects -------
-        
-        this.addToMap(this.statusBar);
+        this.addToMap(this.statusbarHealth);
+        this.addToMap(this.statusbarCoin);
         this.ctx.translate(this.camera_x, 0); //Forward
 
         this.addToMap(this.character);
