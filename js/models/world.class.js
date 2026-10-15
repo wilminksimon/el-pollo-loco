@@ -29,7 +29,7 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 200);
+        }, 1000 / 60);
     }
 
     checkThrowObjects() {
@@ -51,8 +51,22 @@ class World {
     checkCollisionCharacterEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusbarHealth.setPercentage(this.character.energy);
+
+                if (enemy instanceof Chicken && !enemy.dead &&
+                    this.character.speedY < 0 &&
+                    this.character.y + this.character.height -
+                    this.character.offset.bottom <
+                    enemy.y + enemy.offset.top + 30   ) {
+
+                    enemy.die();
+                    this.character.speedY = 15;
+
+                } else if (!enemy.dead) {
+                    this.character.hit();
+                    this.statusbarHealth.setPercentage(
+                        this.character.energy
+                    );
+                } 
             }
         });
     }
@@ -70,7 +84,7 @@ class World {
         }
     }
 
-        checkCollisionCharacterBottle() {
+    checkCollisionCharacterBottle() {
         for (let i = this.level.bottle.length - 1; i >= 0; i--) {
             let bottle = this.level.bottle[i];
 
