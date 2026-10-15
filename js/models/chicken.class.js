@@ -27,23 +27,27 @@ class Chicken extends MovableObject {
 
     die() {
         if (this.dead) return;
-
         this.dead = true;
         this.img = this.imageCache[this.IMAGES_DEAD[0]];
+        
+        setTimeout(() => {
+            this.removeFromWorld = true;
+        }, 2000);
     }
 
-    animate() {
-        setInterval(() => {
-            if (!this.dead) {
-                this.moveLeft();
-            }
-        }, 1000 / 60);
 
-        setInterval(() => {
-            if (!this.dead) {
+animate() {
+    setInterval(() => {
+        if (!this.dead) {
+            this.moveLeft();
+        }
+    }, 1000 / 60);
+
+    setInterval(() => {
+        if (!this.dead) {
             this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 200);
-    }
+        }
+    }, 200);
+}
 
 }

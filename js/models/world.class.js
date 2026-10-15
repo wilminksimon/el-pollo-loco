@@ -29,6 +29,7 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkRemoveDeadEnemies();
         }, 1000 / 60);
     }
 
@@ -56,7 +57,7 @@ class World {
                     this.character.speedY < 0 &&
                     this.character.y + this.character.height -
                     this.character.offset.bottom <
-                    enemy.y + enemy.offset.top + 30   ) {
+                    enemy.y + enemy.offset.top + 30) {
 
                     enemy.die();
                     this.character.speedY = 15;
@@ -66,10 +67,18 @@ class World {
                     this.statusbarHealth.setPercentage(
                         this.character.energy
                     );
-                } 
+                }
             }
         });
     }
+
+
+    checkRemoveDeadEnemies() {
+        this.level.enemies = this.level.enemies.filter(
+            enemy => !enemy.removeFromWorld
+        );
+    }
+
 
     checkCollisionCharacterCoin() {
         for (let i = this.level.coin.length - 1; i >= 0; i--) {
