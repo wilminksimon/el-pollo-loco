@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     coins = 0;
+    bottles = 0;
     offset = {
         top: 0,
         bottom: 0,
@@ -53,6 +54,14 @@ class MovableObject extends DrawableObject {
 
         if (this.coins > 100) {
             this.coins = 100;
+        }
+    }
+
+    collectBottle() {
+        this.bottles += 20;
+
+        if (this.bottles > 100) {
+            this.bottles = 100;
         }
     }
 

@@ -7,6 +7,7 @@ class World {
     camera_x = 0;
     statusbarHealth = new StatusbarHealth();
     statusbarCoin = new StatusbarCoin();
+    statusbarBottle = new StatusbarBottle();
     throwableObjects = [];
 
 
@@ -32,15 +33,19 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
+        if (this.keyboard.D && this.character.bottles > 0) {
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle)
+            this.character.bottles -= 20;
+            this.statusbarBottle.setPercentage(this.character.bottles);
+            this.keyboard.D = false; // Reset the D key state to prevent continuous throwing
         }
     }
 
     checkCollisions() {
-        this.checkCollisionCharacterEnemy()
-        this.checkCollisionCharacterCoin()
+        this.checkCollisionCharacterEnemy();
+        this.checkCollisionCharacterCoin();
+        this.checkCollisionCharacterBottle();
     }
 
     checkCollisionCharacterEnemy() {
@@ -65,6 +70,19 @@ class World {
         }
     }
 
+        checkCollisionCharacterBottle() {
+        for (let i = this.level.bottle.length - 1; i >= 0; i--) {
+            let bottle = this.level.bottle[i];
+
+            if (this.character.isColliding(bottle)) {
+                this.character.collectBottle();
+                this.level.bottle.splice(i, 1);
+
+                this.statusbarBottle.setPercentage(this.character.bottles);
+            }
+        }
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -74,6 +92,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0); //Back
         // ----- Space for fixed Objects -------
         this.addToMap(this.statusbarHealth);
+        this.addToMap(this.statusbarBottle);
         this.addToMap(this.statusbarCoin);
         this.ctx.translate(this.camera_x, 0); //Forward
 
