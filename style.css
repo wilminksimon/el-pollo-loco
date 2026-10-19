@@ -24,3 +24,64 @@ h1 {
     font-size: 47px;
     text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
+
+#startScreen {
+    width: 720px;
+    height: 480px;
+    background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#startScreen button {
+    font-size: 24px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+}
+
+#canvas {
+    display: none;
+}
+
+button {
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button img {
+    width: 40px;
+    height: 40px;
+}
+
+.start-mute {
+    display: flex;
+    flex-direction: column;
+    padding: 7px;
+    gap: 10px;
+}
+
+.control-help {
+    display: flex;
+    padding: 7px;
+    gap: 10px;
+}
+
+.control-help button {
+    height: 60px;
+    width: 60px;
+}
+
+.start-mute button {
+    height: 50px;
+    width: 150px;
+}

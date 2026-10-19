@@ -23,7 +23,7 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         }, 200);
     }
