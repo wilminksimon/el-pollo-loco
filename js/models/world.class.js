@@ -32,7 +32,7 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-            this.checkRemoveDeadEnemies();
+            this.checkRemoveObjectsFromWorld();
         }, 1000 / 60);
     }
 
@@ -78,9 +78,13 @@ class World {
     }
 
 
-    checkRemoveDeadEnemies() {
+    checkRemoveObjectsFromWorld() {
         this.level.enemies = this.level.enemies.filter(
             enemy => !enemy.removeFromWorld
+        );
+
+        this.throwableObjects = this.throwableObjects.filter(
+            bottle => !bottle.removeFromWorld
         );
     }
 
