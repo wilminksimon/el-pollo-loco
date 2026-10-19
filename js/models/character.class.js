@@ -2,13 +2,13 @@ class Character extends MovableObject {
     height = 280;
     y = 80;
     speed = 10;
-        offset = {
+    offset = {
         top: 120,
         bottom: 10,
         left: 20,
         right: 30
     };
-    
+
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -74,10 +74,21 @@ class Character extends MovableObject {
     ]
 
     world;
+    walking_sound = new Audio('audio/walk.mp3');
+    snoring_sound = new Audio('audio/snore.wav');
+    jump_sound = new Audio('audio/jump.wav');
+    snoring_sound = new Audio('audio/snore.wav');
+    hurt_sound = new Audio('audio/hurt.mp3');
+    dead_sound = new Audio('audio/fall-down.mp3');
+
 
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+        this.walking_sound.loop = true;
+        this.walking_sound.volume = 0.4;
+        this.snoring_sound.loop = true;
+        this.snoring_sound.volume = 0.5;
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -86,25 +97,36 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE_LONG);
         this.applyGravity();
         this.animate();
+        this.snoring_sound.loop = true;
+        this.dead_sound_played = false;
     }
 
     animate() {
 
         setStoppableInterval(() => {
-            // this.walking_sound.pause();
+            this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                // this.walking_sound.play();
+                this.snoring_sound.pause();
+                if (!this.isAboveGround()) {
+                    this.walking_sound.play();
+                }
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
-                // this.walking_sound.play();
+                this.snoring_sound.pause();
+                if (!this.isAboveGround()) {
+                    this.walking_sound.play();
+                }
             }
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.walking_sound.pause();
+                this.jump_sound.currentTime = 0;
+                this.jump_sound.play();
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
@@ -116,18 +138,29 @@ class Character extends MovableObject {
 
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (timepassed > 15)  {
-                this.playAnimation(this.IMAGES_IDLE_LONG);
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-        }, 95);
+                if (!this.dead_sound_played) {
+                    this.dead_sound.currentTime = 0;
+                    this.dead_sound.play();
+                    this.dead_sound_played = true;
+                }
+                } else if (this.isHurt()) {
+                    this.playAnimation(this.IMAGES_HURT);
+                } else if (this.isAboveGround()) {
+                    this.playAnimation(this.IMAGES_JUMPING);
+                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (timepassed > 7) {
+                    this.playAnimation(this.IMAGES_IDLE_LONG);
+
+                    if (this.snoring_sound.paused) {
+                        this.snoring_sound.play();
+                    }
+                } else {
+                    this.playAnimation(this.IMAGES_IDLE);
+                    this.snoring_sound.pause();
+                    this.snoring_sound.currentTime = 0;
+                }
+            }, 95);
     }
 
 

@@ -9,6 +9,9 @@ class World {
     statusbarCoin = new StatusbarCoin();
     statusbarBottle = new StatusbarBottle();
     throwableObjects = [];
+    throw_sound = new Audio('audio/throw.wav');
+    coin_sound = new Audio('audio/coinCollect.wav');
+    bottle_sound = new Audio('audio/bottleCollect.ogg');
 
 
     constructor(canvas, keyboard) {
@@ -37,6 +40,8 @@ class World {
         if (this.keyboard.D && this.character.bottles > 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle)
+            this.throw_sound.currentTime = 0;
+            this.throw_sound.play();
             this.character.bottles -= 20;
             this.statusbarBottle.setPercentage(this.character.bottles);
             this.keyboard.D = false; // Reset the D key state to prevent continuous throwing
@@ -86,6 +91,8 @@ class World {
 
             if (this.character.isColliding(coin)) {
                 this.character.collectCoin();
+
+                this.coin_sound.play();
                 this.level.coin.splice(i, 1);
 
                 this.statusbarCoin.setPercentage(this.character.coins);
@@ -99,6 +106,8 @@ class World {
 
             if (this.character.isColliding(bottle)) {
                 this.character.collectBottle();
+
+                this.bottle_sound.play();
                 this.level.bottle.splice(i, 1);
 
                 this.statusbarBottle.setPercentage(this.character.bottles);

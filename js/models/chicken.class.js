@@ -3,6 +3,7 @@ class Chicken extends MovableObject {
     height = 60;
     width = 80;
     dead = false;
+    dead_sound = new Audio('audio/chickenhurt.wav');
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -29,6 +30,7 @@ class Chicken extends MovableObject {
         if (this.dead) return;
         this.dead = true;
         this.img = this.imageCache[this.IMAGES_DEAD[0]];
+        this.dead_sound.play();
         
         setTimeout(() => {
             this.removeFromWorld = true;

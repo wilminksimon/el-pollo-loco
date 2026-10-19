@@ -41,11 +41,16 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;
+        let wasHurt = this.isHurt();
+        this.energy -= 2;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
+            if (!wasHurt && this instanceof Character) {
+            this.hurt_sound.currentTime = 0;
+            this.hurt_sound.play();
+        }
         }
     }
 
