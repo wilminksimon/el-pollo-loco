@@ -8,6 +8,7 @@ class World {
     statusbarHealth = new StatusbarHealth();
     statusbarCoin = new StatusbarCoin();
     statusbarBottle = new StatusbarBottle();
+    statusbarEndboss = new StatusbarEndboss();
     throwableObjects = [];
     throw_sound = new Audio('audio/throw.wav');
     coin_sound = new Audio('audio/coinCollect.wav');
@@ -52,6 +53,7 @@ class World {
         this.checkCollisionCharacterEnemy();
         this.checkCollisionCharacterCoin();
         this.checkCollisionCharacterBottle();
+        this.checkCollisionBottleEndboss();
     }
 
     checkCollisionCharacterEnemy() {
@@ -74,6 +76,28 @@ class World {
                     );
                 }
             }
+        });
+    }
+
+    checkCollisionBottleEndboss() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (enemy instanceof Endboss && bottle.isColliding(enemy)
+                    && !bottle.removeFromWorld && enemy.energy > 0) {
+
+                    enemy.energy = Math.max(0, enemy.energy - 20);
+                    this.statusbarEndboss.setPercentage(enemy.energy);
+                    bottle.removeFromWorld = true;
+
+                    if (enemy.energy === 0) {
+                        enemy.isDead = true;
+                        enemy.currentImage = 0;
+                    } else {
+                        enemy.isHurt = true;
+                        enemy.currentImage = 0;
+                    }
+                }
+            });
         });
     }
 
@@ -130,6 +154,9 @@ class World {
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarBottle);
         this.addToMap(this.statusbarCoin);
+        if (this.statusbarEndboss.visible) {
+            this.addToMap(this.statusbarEndboss);
+        }
         this.ctx.translate(this.camera_x, 0); //Forward
 
         this.addToMap(this.character);
