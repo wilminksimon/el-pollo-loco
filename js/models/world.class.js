@@ -1,4 +1,5 @@
 class World {
+    gameOverShown = false;
     character = new Character();
     level = createLevel1();
     canvas;
@@ -34,8 +35,20 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkRemoveObjectsFromWorld();
+            this.checkGameOver();
         }, 1000 / 60);
     }
+
+checkGameOver() {
+    if (this.character.isDead() &&
+        this.character.y > this.canvas.height &&
+        !this.gameOverShown) {
+
+        this.gameOverShown = true;
+        document.getElementById('game-over-screen')
+            .classList.remove('d-none');
+    }
+}
 
     checkThrowObjects() {
         if (this.keyboard.D && this.character.bottles > 0) {
