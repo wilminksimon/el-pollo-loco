@@ -67,8 +67,8 @@ class MovableObject extends DrawableObject {
     collectBottle() {
         this.bottles += 20;
 
-        if (this.bottles > 100) {
-            this.bottles = 100;
+        if (this.bottles > this.maxBottleInventory) {
+            this.bottles = this.maxBottleInventory;
         }
     }
 

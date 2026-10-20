@@ -32,6 +32,7 @@ function restartGame() {
         .classList.add('d-none');
     document.getElementById('win-screen')
         .classList.add('d-none');
+    backgroundMusic.play();
     init();
 }
 

@@ -153,7 +153,8 @@ class World {
         for (let i = this.level.bottle.length - 1; i >= 0; i--) {
             let bottle = this.level.bottle[i];
 
-            if (this.character.isColliding(bottle)) {
+            if (this.character.isColliding(bottle) &&
+                this.character.bottles < this.character.maxBottleInventory) {
                 this.character.collectBottle();
 
                 this.bottle_sound.play();
