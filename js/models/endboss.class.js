@@ -3,6 +3,13 @@ class Endboss extends MovableObject {
     height = 400;
     width = 250;
     y = 60;
+    speed = 15;
+        offset = {
+        top: 60,
+        bottom: 10,
+        left: 25,
+        right: 30
+    };
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -54,6 +61,7 @@ class Endboss extends MovableObject {
     isDead = false;
     energy = 100;
     lastHit = 0;
+    lastCharacterHit = 0;
 
 
     constructor() {
@@ -63,7 +71,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 3000;
+        this.x = 2900;
         this.animate();
     }
 
@@ -77,7 +85,7 @@ class Endboss extends MovableObject {
             else if (this.isAlerting) this.alerting();
             else if (this.isChasing) this.chasing();
             else if (this.isAttacking) this.attacking();
-        }, 200);
+        }, 100);
     }
 
     checkFirstContact() {
@@ -88,7 +96,7 @@ class Endboss extends MovableObject {
     }
 
     entering() {
-        this.x -= 15;
+        this.x -= this.speed;
         this.playAnimation(this.IMAGES_WALKING);
         if (this.x > 2500) return;
         this.x = 2500;
@@ -101,7 +109,7 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_ALERT);
         if (this.currentImage < this.IMAGES_ALERT.length) return;
         this.isAlerting = false;
-        this.isChasing = true;
+        this.isAttacking = true;
         this.currentImage = 0;
     }
 
@@ -118,6 +126,9 @@ class Endboss extends MovableObject {
 
     attacking() {
         this.playAnimation(this.IMAGES_ATTACK);
+        if (this.x > world.character.x - 10) {
+            this.x -= this.speed;
+        }
         if (this.currentImage < this.IMAGES_ATTACK.length) return;
         this.currentImage = 0;
     }

@@ -39,16 +39,16 @@ class World {
         }, 1000 / 60);
     }
 
-checkGameOver() {
-    if (this.character.isDead() &&
-        this.character.y > this.canvas.height &&
-        !this.gameOverShown) {
+    checkGameOver() {
+        if (this.character.isDead() &&
+            this.character.y > this.canvas.height &&
+            !this.gameOverShown) {
 
-        this.gameOverShown = true;
-        document.getElementById('game-over-screen')
-            .classList.remove('d-none');
+            this.gameOverShown = true;
+            document.getElementById('game-over-screen')
+                .classList.remove('d-none');
+        }
     }
-}
 
     checkThrowObjects() {
         if (this.keyboard.D && this.character.bottles > 0) {
@@ -82,7 +82,10 @@ checkGameOver() {
                     enemy.die();
                     this.character.speedY = 15;
 
-                } else if (!enemy.dead) {
+                } else if (!(enemy instanceof Endboss) && !enemy.dead ||
+                    (enemy instanceof Endboss && !enemy.isDead)) {
+                    if (Date.now() - enemy.lastCharacterHit < 50) return;
+                    enemy.lastCharacterHit = Date.now();
                     this.character.hit();
                     this.statusbarHealth.setPercentage(
                         this.character.energy
