@@ -25,7 +25,9 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        if (this instanceof ThrowableObject) { //Throwable Objects should always fall
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else if (this instanceof Character && this.isDead()) {
             return true;
         } else {
             return this.y < 150;
@@ -48,9 +50,9 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
             if (!wasHurt && this instanceof Character) {
-            this.hurt_sound.currentTime = 0;
-            this.hurt_sound.play();
-        }
+                this.hurt_sound.currentTime = 0;
+                this.hurt_sound.play();
+            }
         }
     }
 
