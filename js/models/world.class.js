@@ -50,6 +50,11 @@ class World {
         }
     }
 
+    showWinScreen() {
+        document.getElementById('win-screen')
+            .classList.remove('d-none');
+    }
+
     checkThrowObjects() {
         if (this.keyboard.D && this.character.bottles > 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);

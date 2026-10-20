@@ -30,12 +30,16 @@ function restartGame() {
     stopGame();
     document.getElementById('game-over-screen')
         .classList.add('d-none');
+    document.getElementById('win-screen')
+        .classList.add('d-none');
     init();
 }
 
 function goToStartScreen() {
     stopGame();
     document.getElementById('game-over-screen')
+        .classList.add('d-none');
+    document.getElementById('win-screen')
         .classList.add('d-none');
     document.getElementById('canvas').style.display = 'none';
     document.getElementById('startScreen').style.display = 'flex';

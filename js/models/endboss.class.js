@@ -4,7 +4,7 @@ class Endboss extends MovableObject {
     width = 250;
     y = 60;
     speed = 15;
-        offset = {
+    offset = {
         top: 60,
         bottom: 10,
         left: 25,
@@ -59,6 +59,7 @@ class Endboss extends MovableObject {
     isAttacking = false;
     isHurt = false;
     isDead = false;
+    winScreenShown = false;
     energy = 100;
     lastHit = 0;
     lastCharacterHit = 0;
@@ -143,6 +144,14 @@ class Endboss extends MovableObject {
 
     dead() {
         this.playAnimation(this.IMAGES_DEAD);
+
+        if (this.currentImage < this.IMAGES_DEAD.length) return;
+        this.currentImage = this.IMAGES_DEAD.length - 1;
+
+        if (!this.winScreenShown) {
+            this.winScreenShown = true;
+            world.showWinScreen();
+        }
     }
 
 
