@@ -17,6 +17,8 @@ class ThrowableObject extends MovableObject {
         this.loadImages(this.IMAGES_SPLASH);
         this.x = x;
         this.y = y;
+        this.direction = world.character.otherDirection ? -1 : 1;
+        this.speedX = 7 + world.character.speed;
         this.height = 70;
         this.width = 60;
         this.throw();
@@ -27,7 +29,7 @@ class ThrowableObject extends MovableObject {
 
         setStoppableInterval(() => {
             if (!this.hasHitGround) {
-                this.x += 10;
+                this.x += this.speedX * this.direction;
 
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
@@ -48,15 +50,15 @@ class ThrowableObject extends MovableObject {
     }
 
     animateSplash() {
-    this.currentImage = 0;
+        this.currentImage = 0;
 
-    let interval = setStoppableInterval(() => {
-        if (this.currentImage < this.IMAGES_SPLASH.length) {
-            this.playAnimation(this.IMAGES_SPLASH);
-        } else {
-            clearInterval(interval);
-            this.removeFromWorld = true;
-        }
-    }, 100);
-}
+        let interval = setStoppableInterval(() => {
+            if (this.currentImage < this.IMAGES_SPLASH.length) {
+                this.playAnimation(this.IMAGES_SPLASH);
+            } else {
+                clearInterval(interval);
+                this.removeFromWorld = true;
+            }
+        }, 100);
+    }
 }
