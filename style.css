@@ -105,10 +105,8 @@ button img {
     box-sizing: border-box;
 }
 
-.game-over-screen h2 {
-    font-size: 48px;
-    color: #ff3333;
-    margin-bottom: 30px;
+.game-over-screen img {
+    height: 200px;
 }
 
 .game-over-screen button {
