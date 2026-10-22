@@ -57,6 +57,25 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #e6b800;
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.45);
+    transform: scale(1.06);
+}
+
+button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    transform: scale(0.98);
+}
+
+button:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 3px;
 }
 
 button img {
@@ -105,15 +124,26 @@ button img {
     box-sizing: border-box;
 }
 
-.game-over-screen img {
+#game-over-screen img {
     height: 200px;
 }
 
 .game-over-screen button {
     margin: 10px;
     cursor: pointer;
+    border-radius: 15px;
+    width: 144px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
+
+
 
 .d-none {
     display: none;
+}
+
+#win-screen img {
+    height: 119px;
 }
