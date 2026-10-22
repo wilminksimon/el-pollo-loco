@@ -20,6 +20,9 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        registerSound(this.throw_sound);
+        registerSound(this.coin_sound);
+        registerSound(this.bottle_sound);
         this.draw();
         this.setWorld();
         this.run();

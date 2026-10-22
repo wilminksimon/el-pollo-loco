@@ -2,9 +2,44 @@ let backgroundMusic = new Audio('audio/background-music.mp3');
 backgroundMusic.loop = true;
 backgroundMusic.volume = 0.2;
 
+let isMuted = false;
+let gameSounds = [];
+
+function registerSound(sound) {
+    gameSounds.push(sound);
+    sound.muted = isMuted;
+}
+
+function playSound(sound) {
+    if (isMuted) return;
+    sound.play();
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    backgroundMusic.muted = isMuted;
+    gameSounds.forEach(sound => {
+        sound.muted = isMuted;
+    });
+
+    let buttons = [
+        document.getElementById('mute-button'),
+        document.getElementById('game-mute-button')
+    ];
+
+    buttons.forEach(button => {
+        let image = button.querySelector('img');
+        image.src = isMuted
+            ? 'img/9_intro_outro_screens/ui/volume-off.svg'
+            : 'img/9_intro_outro_screens/ui/volume-on.svg';
+    });
+    document.activeElement.blur();
+}
+
 function startGame() {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
+    document.getElementById('game-mute-button').style.display = 'flex';
 
     backgroundMusic.currentTime = 0;
     backgroundMusic.play();
@@ -43,5 +78,6 @@ function goToStartScreen() {
     document.getElementById('win-screen')
         .classList.add('d-none');
     document.getElementById('canvas').style.display = 'none';
+    document.getElementById('game-mute-button').style.display = 'none';
     document.getElementById('startScreen').style.display = 'flex';
 }

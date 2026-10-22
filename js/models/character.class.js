@@ -91,6 +91,11 @@ class Character extends MovableObject {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.walking_sound.loop = true;
         this.walking_sound.volume = 0.4;
+        registerSound(this.walking_sound);
+        registerSound(this.jump_sound);
+        registerSound(this.snoring_sound);
+        registerSound(this.hurt_sound);
+        registerSound(this.dead_sound);
         this.snoring_sound.loop = true;
         this.snoring_sound.volume = 0.5;
         this.loadImages(this.IMAGES_WALKING);

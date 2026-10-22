@@ -33,21 +33,26 @@
 
 <body>
     <h1>El Pollo Loco</h1>
-    <div id="startScreen">
-        <div class="control-help">
-            <button onclick="showControls()"><img src="img/9_intro_outro_screens/ui/control.svg"
-                    alt="Controls"></button>
-            <button onclick="showHelp()"><img src="img/9_intro_outro_screens/ui/info.svg" alt="Help"></button>
-        </div>
 
-        <div class="start-mute">
-            <button onclick="startGame()">Start</button>
-            <button onclick="toggleMute()"><img src="img/9_intro_outro_screens/ui/volume-on.svg" alt="Mute"></button>
-        </div>
-    </div>
 
     <div id="game-container">
+        <div id="startScreen">
+            <div class="control-help">
+                <button onclick="showControls()"><img src="img/9_intro_outro_screens/ui/control.svg"
+                        alt="Controls"></button>
+                <button onclick="showHelp()"><img src="img/9_intro_outro_screens/ui/info.svg" alt="Help"></button>
+            </div>
+
+            <div class="start-mute">
+                <button onclick="startGame()">Start</button>
+                <button onclick="toggleMute()" id="mute-button"><img src="img/9_intro_outro_screens/ui/volume-on.svg"
+                        alt="Mute"></button>
+            </div>
+        </div>
+
         <canvas id="canvas" width="720" height="480"></canvas>
+        <button onclick="toggleMute()" id="game-mute-button"><img src="img/9_intro_outro_screens/ui/volume-on.svg"
+                alt="Mute"></button>
 
         <div id="game-over-screen" class="game-over-screen d-none">
             <h2><img src="img/You won, you lost/Game Over.png" alt="Game Over"></h2>
