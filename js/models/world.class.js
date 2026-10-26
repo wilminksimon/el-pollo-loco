@@ -86,7 +86,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
 
-                if (enemy instanceof Chicken && !enemy.dead &&
+                if (enemy instanceof Chicken || enemy instanceof ChickenSmall && !enemy.dead &&
                     this.character.speedY < 0 &&
                     this.character.y + this.character.height -
                     this.character.offset.bottom <
@@ -111,7 +111,7 @@ class World {
     checkCollisionBottleChicken() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (enemy instanceof Chicken &&
+                if (enemy instanceof Chicken || enemy instanceof ChickenSmall &&
                     bottle.isColliding(enemy) &&
                     !bottle.removeFromWorld &&
                     !enemy.dead) {
