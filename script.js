@@ -81,3 +81,22 @@ function goToStartScreen() {
     document.getElementById('game-mute-button').style.display = 'none';
     document.getElementById('startScreen').style.display = 'flex';
 }
+
+
+
+function showControls() {
+    console.log('Steuerungsbutton wurde geklickt');
+    document.getElementById('controls-dialog').classList.remove('d-none');
+}
+
+
+function showHelp() {
+    document.getElementById('imprint-dialog').classList.remove('d-none');
+}
+
+
+function closeDialog(dialogId) {
+    document.getElementById(dialogId).classList.add('d-none');
+}
+
+
