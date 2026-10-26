@@ -43,7 +43,17 @@ function startGame() {
 
     backgroundMusic.currentTime = 0;
     backgroundMusic.play();
+    showMobileControls();
     init();
+}
+
+function showMobileControls() {
+    if (window.matchMedia(
+        '(max-width: 900px) and (orientation: landscape)'
+    ).matches) {
+        document.getElementById('touch-controls')
+            .classList.add('active');
+    }
 }
 
 let intervalIds = [];

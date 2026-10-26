@@ -4,10 +4,9 @@ let keyboard = new Keyboard();
 
 
 function init() {
+    bindTouchEvents();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-
-    console.log('My character is', world.character);
 }
 
 window.addEventListener("keydown", (e) => {
@@ -65,3 +64,48 @@ window.addEventListener("keyup", (e) => {
         keyboard.D = false;
     }
 })
+
+
+
+function bindTouchEvents() {
+    document.getElementById('touch-left')
+        .addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.LEFT = true;
+        });
+    document.getElementById('touch-left')
+        .addEventListener('touchend', () => {
+            keyboard.LEFT = false;
+        });
+
+    document.getElementById('touch-right')
+        .addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.RIGHT = true;
+        });
+    document.getElementById('touch-right')
+        .addEventListener('touchend', () => {
+            keyboard.RIGHT = false;
+        });
+
+    document.getElementById('touch-jump')
+        .addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.SPACE = true;
+        });
+    document.getElementById('touch-jump')
+        .addEventListener('touchend', () => {
+            keyboard.SPACE = false;
+        });
+
+    document.getElementById('touch-throw')
+        .addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.D = true;
+        });
+    document.getElementById('touch-throw')
+        .addEventListener('touchend', () => {
+            keyboard.D = false;
+        });
+}
+
