@@ -78,6 +78,7 @@ class World {
         this.checkCollisionCharacterEnemy();
         this.checkCollisionCharacterCoin();
         this.checkCollisionCharacterBottle();
+        this.checkCollisionBottleChicken();
         this.checkCollisionBottleEndboss();
     }
 
@@ -104,6 +105,20 @@ class World {
                     );
                 }
             }
+        });
+    }
+
+    checkCollisionBottleChicken() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (enemy instanceof Chicken &&
+                    bottle.isColliding(enemy) &&
+                    !bottle.removeFromWorld &&
+                    !enemy.dead) {
+                    enemy.die();
+                    bottle.removeFromWorld = true;
+                }
+            });
         });
     }
 
