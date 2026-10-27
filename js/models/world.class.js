@@ -100,19 +100,26 @@ class World {
 
 
     /** Checks collisions between the character and enemies. */
-    checkCollisionCharacterEnemy() {
-        this.level.enemies.forEach((enemy) => {
-            if (!this.character.isColliding(enemy)) {
-                return;
-            }
-
-            if (this.isEnemyStomped(enemy)) {
-                this.handleEnemyStomp(enemy);
-            } else {
-                this.handleCharacterHit(enemy);
-            }
+checkCollisionCharacterEnemy() {
+    let stompedEnemies = this.level.enemies.filter((enemy) =>
+        this.character.isColliding(enemy) &&
+        this.isEnemyStomped(enemy)
+    );
+    if (stompedEnemies.length > 0) {
+        stompedEnemies.forEach((enemy) => {
+            this.handleEnemyStomp(enemy);
         });
+        return;
     }
+    this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy) &&
+            this.canEnemyHitCharacter(enemy)) {
+            this.handleCharacterHit(enemy);
+        }
+    });
+}
+
+
 
 
     /**
