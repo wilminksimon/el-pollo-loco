@@ -47,14 +47,16 @@ function startGame() {
     init();
 }
 
+
 function showMobileControls() {
-    if (window.matchMedia(
+    let touchControls = document.getElementById('touch-controls');
+    let isMobileLandscape = window.matchMedia(
         '(max-width: 900px) and (orientation: landscape)'
-    ).matches) {
-        document.getElementById('touch-controls')
-            .classList.add('active');
-    }
+    ).matches;
+
+    touchControls.classList.toggle('active', isMobileLandscape);
 }
+
 
 let intervalIds = [];
 

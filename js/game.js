@@ -7,6 +7,7 @@ let touchEventsBound = false;
 function init() {
     bindTouchEvents();
     canvas = document.getElementById('canvas');
+    keyboard.lastKeyPress = new Date().getTime();
     world = new World(canvas, keyboard);
 }
 
@@ -74,10 +75,14 @@ function bindTouchEvents() {
     }
 
     touchEventsBound = true;
+    window.addEventListener('resize', showMobileControls);
+
     
+
     document.getElementById('touch-left')
         .addEventListener('touchstart', (e) => {
             e.preventDefault();
+            keyboard.lastKeyPress = new Date().getTime();
             keyboard.LEFT = true;
         });
     document.getElementById('touch-left')
@@ -88,6 +93,7 @@ function bindTouchEvents() {
     document.getElementById('touch-right')
         .addEventListener('touchstart', (e) => {
             e.preventDefault();
+            keyboard.lastKeyPress = new Date().getTime();
             keyboard.RIGHT = true;
         });
     document.getElementById('touch-right')
@@ -98,6 +104,7 @@ function bindTouchEvents() {
     document.getElementById('touch-jump')
         .addEventListener('touchstart', (e) => {
             e.preventDefault();
+            keyboard.lastKeyPress = new Date().getTime();
             keyboard.SPACE = true;
         });
     document.getElementById('touch-jump')
@@ -108,6 +115,7 @@ function bindTouchEvents() {
     document.getElementById('touch-throw')
         .addEventListener('touchstart', (e) => {
             e.preventDefault();
+            keyboard.lastKeyPress = new Date().getTime();
             keyboard.D = true;
         });
     document.getElementById('touch-throw')
