@@ -228,7 +228,7 @@ class Character extends MovableObject {
         this.world.keyboard.SPACE = false;
     }
 
-    /** Character  ist not allowed to go to the Richt Side of the Endboss */
+    /** Character  ist not allowed to go to the Richt Side */
     isBlockedByEndboss(nextX) {
         let endboss = this.world.level.enemies.find(
             enemy => enemy instanceof Endboss && !enemy.isDead

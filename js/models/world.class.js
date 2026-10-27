@@ -56,8 +56,8 @@ class World {
         if (this.character.isDead() &&
             this.character.y > this.canvas.height &&
             !this.gameOverShown) {
-
             this.gameOverShown = true;
+            stopGame();
             document.getElementById('game-over-screen')
                 .classList.remove('d-none');
         }
@@ -66,9 +66,9 @@ class World {
     /** Displays the win screen. */
     showWinScreen() {
         this.character.gameWon = true;
+        stopGame();
         this.character.snoring_sound.pause();
         this.character.snoring_sound.currentTime = 0;
-
         document.getElementById('win-screen')
             .classList.remove('d-none');
     }

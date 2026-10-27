@@ -95,15 +95,15 @@ function setStoppableInterval(fn, time) {
 
 /** Stops the game animation, intervals, and background music. */
 function stopGame() {
-    if (world.animationFrameId !== null) {
-        cancelAnimationFrame(world.animationFrameId);
-        world.animationFrameId = null;
-    }
     intervalIds.forEach(id => clearInterval(id));
     intervalIds = [];
 
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
+    if (typeof world !== 'undefined' &&
+        world &&
+        world.animationFrameId !== null) {
+        cancelAnimationFrame(world.animationFrameId);
+        world.animationFrameId = null;
+    }
 }
 
 /** Resets the end screens and starts a new game. */
