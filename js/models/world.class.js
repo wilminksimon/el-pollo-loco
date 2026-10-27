@@ -7,6 +7,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    lastThrowTime = 0;
+    throwCooldown = 600;
     statusbarHealth = new StatusbarHealth();
     statusbarCoin = new StatusbarCoin();
     statusbarBottle = new StatusbarBottle();
@@ -15,7 +17,6 @@ class World {
     throw_sound = new Audio('audio/throw.wav');
     coin_sound = new Audio('audio/coinCollect.wav');
     bottle_sound = new Audio('audio/bottleCollect.ogg');
-
 
     /**
      * Creates the game world and starts its drawing and update loops.
@@ -74,19 +75,46 @@ class World {
 
     /** Throws a bottle when the throw control is active and bottles remain. */
     checkThrowObjects() {
-        if (this.keyboard.D && this.character.bottles > 0) {
-            let x = this.character.otherDirection
-                ? this.character.x - 40
-                : this.character.x + 100;
+        if (this.isThrowingBlocked()) return;
+        if (!this.canThrowBottle()) return;
 
-            let bottle = new ThrowableObject(x, this.character.y + 100);
-            this.throwableObjects.push(bottle)
-            this.throw_sound.currentTime = 0;
-            this.throw_sound.play();
-            this.character.bottles -= 20;
-            this.statusbarBottle.setPercentage(this.character.bottles);
-            this.keyboard.D = false; // Reset the D key state to prevent continuous throwing
-        }
+        this.throwBottle();
+    }
+
+    isThrowingBlocked() {
+        let endboss = this.level.enemies.find(
+            enemy => enemy instanceof Endboss
+        );
+        return endboss &&
+            (!endboss.hadFirstContact ||
+                endboss.isEntering ||
+                endboss.isAlerting);
+    }
+
+    canThrowBottle() {
+        return this.keyboard.D &&
+            this.character.bottles > 0 &&
+            Date.now() - this.lastThrowTime >= this.throwCooldown;
+    }
+
+    throwBottle() {
+        let x = this.character.otherDirection
+            ? this.character.x - 40
+            : this.character.x + 100;
+
+        let bottle = new ThrowableObject(
+            x,
+            this.character.y + 100
+        );
+        this.throwableObjects.push(bottle);
+        this.throw_sound.currentTime = 0;
+        this.throw_sound.play();
+
+        this.character.bottles -= 20;
+        this.statusbarBottle.setPercentage(this.character.bottles);
+
+        this.lastThrowTime = Date.now();
+        this.keyboard.D = false;
     }
 
     /** Checks all character, enemy, collectible, and projectile collisions. */
@@ -98,29 +126,25 @@ class World {
         this.checkCollisionBottleEndboss();
     }
 
-
     /** Checks collisions between the character and enemies. */
-checkCollisionCharacterEnemy() {
-    let stompedEnemies = this.level.enemies.filter((enemy) =>
-        this.character.isColliding(enemy) &&
-        this.isEnemyStomped(enemy)
-    );
-    if (stompedEnemies.length > 0) {
-        stompedEnemies.forEach((enemy) => {
-            this.handleEnemyStomp(enemy);
-        });
-        return;
-    }
-    this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy) &&
-            this.canEnemyHitCharacter(enemy)) {
-            this.handleCharacterHit(enemy);
+    checkCollisionCharacterEnemy() {
+        let stompedEnemies = this.level.enemies.filter((enemy) =>
+            this.character.isColliding(enemy) &&
+            this.isEnemyStomped(enemy)
+        );
+        if (stompedEnemies.length > 0) {
+            stompedEnemies.forEach((enemy) => {
+                this.handleEnemyStomp(enemy);
+            });
+            return;
         }
-    });
-}
-
-
-
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) &&
+                this.canEnemyHitCharacter(enemy)) {
+                this.handleCharacterHit(enemy);
+            }
+        });
+    }
 
     /**
      * Determines whether the character is stomping a living regular enemy.
@@ -157,7 +181,6 @@ checkCollisionCharacterEnemy() {
         this.statusbarHealth.setPercentage(this.character.energy);
     }
 
-
     /**
      * Checks whether an enemy can currently damage the character.
      * @param {MovableObject} enemy - The enemy to check.
@@ -175,7 +198,6 @@ checkCollisionCharacterEnemy() {
         return Date.now() - enemy.lastCharacterHit >= 50;
     }
 
-
     /** Checks for collisions between thrown bottles and regular enemies. */
     checkCollisionBottleChicken() {
         this.throwableObjects.forEach((bottle) => {
@@ -192,7 +214,6 @@ checkCollisionCharacterEnemy() {
         });
     }
 
-
     /** Checks for collisions between thrown bottles and the end boss. */
     checkCollisionBottleEndboss() {
         this.throwableObjects.forEach((bottle) => {
@@ -203,7 +224,6 @@ checkCollisionCharacterEnemy() {
             });
         });
     }
-
 
     /**
      * Determines whether a bottle can damage the end boss.
@@ -255,7 +275,6 @@ checkCollisionCharacterEnemy() {
         );
     }
 
-
     /** Collects coins touched by the character and updates the coin status bar. */
     checkCollisionCharacterCoin() {
         for (let i = this.level.coin.length - 1; i >= 0; i--) {
@@ -289,7 +308,6 @@ checkCollisionCharacterEnemy() {
         }
     }
 
-
     /** Draws the current frame and schedules the next animation frame. */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -301,7 +319,6 @@ checkCollisionCharacterEnemy() {
             this.draw();
         });
     }
-
 
     /** Draws the background objects using the camera offset. */
     drawBackground() {
@@ -332,7 +349,6 @@ checkCollisionCharacterEnemy() {
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
     }
-
 
     /**
      * Draws each object in an array on the world canvas.
