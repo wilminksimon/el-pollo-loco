@@ -114,4 +114,3 @@ function startTouch(event, key) {
     keyboard.lastKeyPress = new Date().getTime();
     keyboard[key] = true;
 }
-

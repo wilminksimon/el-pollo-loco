@@ -253,7 +253,10 @@ button img {
         font-size: 22px;
         border-radius: 12px;
         opacity: 0.8;
+        cursor: pointer;
         touch-action: none;
         user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
     }
 }
