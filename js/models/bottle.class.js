@@ -13,6 +13,7 @@ class Bottle extends MovableObject {
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
+    /** Loads the bottle images, randomizes its position, and starts its animation. */
     constructor() {
         super().loadImage('img/6_salsa_bottle/1_salsa_bottle_on_ground.png');
         this.loadImages(this.IMAGES_BOTTLE);
@@ -23,6 +24,7 @@ class Bottle extends MovableObject {
         this.animate();
     }
 
+    /** Cycles through the bottle animation images. */
     animate() {
         setStoppableInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE);

@@ -65,6 +65,7 @@ class Endboss extends MovableObject {
     lastCharacterHit = 0;
 
 
+    /** Loads the end boss assets and starts its behavior loop. */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -77,6 +78,7 @@ class Endboss extends MovableObject {
     }
 
 
+    /** Advances the end boss behavior according to its current state. */
     animate() {
         setStoppableInterval(() => {
             this.checkFirstContact();
@@ -89,6 +91,7 @@ class Endboss extends MovableObject {
         }, 100);
     }
 
+    /** Starts the end boss entrance when the character reaches its trigger. */
     checkFirstContact() {
         if (world.character.x <= 2199 || this.hadFirstContact) return;
         this.hadFirstContact = true;
@@ -96,6 +99,7 @@ class Endboss extends MovableObject {
         world.statusbarEndboss.visible = true;
     }
 
+    /** Moves the end boss into position before it begins its attack. */
     entering() {
         this.x -= this.speed;
         this.playAnimation(this.IMAGES_WALKING);
@@ -106,6 +110,7 @@ class Endboss extends MovableObject {
         this.currentImage = 0;
     }
 
+    /** Plays the alert animation before the end boss starts attacking. */
     alerting() {
         this.playAnimation(this.IMAGES_ALERT);
         if (this.currentImage < this.IMAGES_ALERT.length) return;
@@ -114,6 +119,7 @@ class Endboss extends MovableObject {
         this.currentImage = 0;
     }
 
+    /** Moves the end boss toward the character during a chase. */
     chasing() {
         this.playAnimation(this.IMAGES_WALKING);
         if (this.x > world.character.x + 200) {
@@ -125,6 +131,7 @@ class Endboss extends MovableObject {
         this.currentImage = 0;
     }
 
+    /** Plays the attack animation and advances the end boss toward the character. */
     attacking() {
         this.playAnimation(this.IMAGES_ATTACK);
         if (this.x > world.character.x - 10) {
@@ -134,6 +141,7 @@ class Endboss extends MovableObject {
         this.currentImage = 0;
     }
 
+    /** Plays the hurt animation and resumes attacking when it finishes. */
     hurt() {
         this.playAnimation(this.IMAGES_HURT);
         if (this.currentImage < this.IMAGES_HURT.length) return;
@@ -142,6 +150,7 @@ class Endboss extends MovableObject {
         this.currentImage = 0;
     }
 
+    /** Plays the death animation and displays the win screen once complete. */
     dead() {
         this.playAnimation(this.IMAGES_DEAD);
 

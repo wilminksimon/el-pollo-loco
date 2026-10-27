@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let touchEventsBound = false;
 
 
+/** Initializes the game world and binds touch controls. */
 function init() {
     bindTouchEvents();
     canvas = document.getElementById('canvas');
@@ -69,58 +70,48 @@ window.addEventListener("keyup", (e) => {
 
 
 
+
+/** Binds touch controls once and updates their visibility on resize. */
 function bindTouchEvents() {
-        if (touchEventsBound) {
+    if (touchEventsBound) {
         return;
     }
 
     touchEventsBound = true;
     window.addEventListener('resize', showMobileControls);
 
-    
+    bindTouchButton('touch-left', 'LEFT');
+    bindTouchButton('touch-right', 'RIGHT');
+    bindTouchButton('touch-jump', 'SPACE');
+    bindTouchButton('touch-throw', 'D');
+}
 
-    document.getElementById('touch-left')
-        .addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            keyboard.lastKeyPress = new Date().getTime();
-            keyboard.LEFT = true;
-        });
-    document.getElementById('touch-left')
-        .addEventListener('touchend', () => {
-            keyboard.LEFT = false;
-        });
 
-    document.getElementById('touch-right')
-        .addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            keyboard.lastKeyPress = new Date().getTime();
-            keyboard.RIGHT = true;
-        });
-    document.getElementById('touch-right')
-        .addEventListener('touchend', () => {
-            keyboard.RIGHT = false;
-        });
+/**
+ * Connects a touch button to a keyboard control.
+ * @param {string} buttonId - The ID of the touch button.
+ * @param {string} key - The keyboard control to update.
+ */
+function bindTouchButton(buttonId, key) {
+    let button = document.getElementById(buttonId);
 
-    document.getElementById('touch-jump')
-        .addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            keyboard.lastKeyPress = new Date().getTime();
-            keyboard.SPACE = true;
-        });
-    document.getElementById('touch-jump')
-        .addEventListener('touchend', () => {
-            keyboard.SPACE = false;
-        });
+    button.addEventListener('touchstart', (event) => {
+        startTouch(event, key);
+    });
 
-    document.getElementById('touch-throw')
-        .addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            keyboard.lastKeyPress = new Date().getTime();
-            keyboard.D = true;
-        });
-    document.getElementById('touch-throw')
-        .addEventListener('touchend', () => {
-            keyboard.D = false;
-        });
+    button.addEventListener('touchend', () => {
+        keyboard[key] = false;
+    });
+}
+
+/**
+ * Prevents the default touch action and activates the matching control.
+ * @param {TouchEvent} event - The touch event to handle.
+ * @param {string} key - The keyboard control to activate.
+ */
+function startTouch(event, key) {
+    event.preventDefault();
+    keyboard.lastKeyPress = new Date().getTime();
+    keyboard[key] = true;
 }
 

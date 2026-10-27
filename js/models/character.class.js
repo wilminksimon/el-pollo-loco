@@ -86,6 +86,7 @@ class Character extends MovableObject {
 
 
 
+    /** Initializes the character's assets, sounds, gravity, and animation. */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.walking_sound.loop = true;
@@ -109,92 +110,162 @@ class Character extends MovableObject {
         this.dead_sound_played = false;
     }
 
+
+    /** Starts the character movement and animation loops. */
     animate() {
+        this.animateMovement();
+        this.animateCharacter();
+    }
 
+
+    /** Updates character movement and camera position on each game tick. */
+    animateMovement() {
         setStoppableInterval(() => {
-            if (this.isDead()) {
-                this.walking_sound.pause();
-                this.snoring_sound.pause();
-                this.world.keyboard.RIGHT = false;
-                this.world.keyboard.LEFT = false;
-                this.world.keyboard.SPACE = false;
-                return;
-            }
-
-            this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.snoring_sound.pause();
-                if (!this.isAboveGround()) {
-                    this.walking_sound.play();
-                }
-            }
-
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.snoring_sound.pause();
-                if (!this.isAboveGround()) {
-                    this.walking_sound.play();
-                }
-            }
-
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.walking_sound.pause();
-                this.jump_sound.currentTime = 0;
-                this.jump_sound.play();
-                this.jump();
-            }
+            this.handleCharacterMovement();
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+    }
 
-
+    /** Updates the character's animation on each animation tick. */
+    animateCharacter() {
         setStoppableInterval(() => {
-            let timepassed = (new Date().getTime() - this.world.keyboard.lastKeyPress) / 1000;
-
-            if (this.isDead()) {
-                if (!this.deadAnimationStarted) {
-                    this.currentImage = 0;
-                    this.deadAnimationStarted = true;
-                }
-
-                if (!this.deadAnimationFinished) {
-                    this.playAnimation(this.IMAGES_DEAD);
-
-                    if (this.currentImage >= this.IMAGES_DEAD.length) {
-                        this.deadAnimationFinished = true;
-                        this.currentImage = this.IMAGES_DEAD.length - 1;
-                        this.isFallingAfterDeath = true;
-                        this.speedY = 0;
-                    }
-                }
-                if (!this.dead_sound_played) {
-                    this.dead_sound.currentTime = 0;
-                    this.dead_sound.play();
-                    this.dead_sound_played = true;
-                }
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (timepassed > 7) {
-                this.playAnimation(this.IMAGES_IDLE_LONG);
-
-                if (this.snoring_sound.paused) {
-                    this.snoring_sound.play();
-                }
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
-                this.snoring_sound.pause();
-                this.snoring_sound.currentTime = 0;
-            }
+            this.handleCharacterAnimation();
         }, 95);
     }
 
 
+    /** Selects the character animation that matches its current state. */
+    handleCharacterAnimation() {
+        let timePassed = (new Date().getTime() - this.world.keyboard.lastKeyPress) / 1000;
+
+        if (this.isDead()) {
+            this.handleDeathAnimation();
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        } else if (this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.IMAGES_WALKING);
+        } else if (timePassed > 7) {
+            this.handleLongIdleAnimation();
+        } else {
+            this.handleIdleAnimation();
+        }
+    }
+
+
+    /** Plays the death animation and sound and advances the death state. */
+    handleDeathAnimation() {
+        if (!this.deadAnimationStarted) {
+            this.currentImage = 0;
+            this.deadAnimationStarted = true;
+        }
+
+        if (!this.deadAnimationFinished) {
+            this.playAnimation(this.IMAGES_DEAD);
+            this.finishDeathAnimation();
+        }
+
+        this.playDeathSound();
+    }
+
+    /** Marks the death animation as finished once all frames have played. */
+    finishDeathAnimation() {
+        if (this.currentImage >= this.IMAGES_DEAD.length) {
+            this.deadAnimationFinished = true;
+            this.currentImage = this.IMAGES_DEAD.length - 1;
+            this.isFallingAfterDeath = true;
+            this.speedY = 0;
+        }
+    }
+
+    /** Plays the character's death sound once. */
+    playDeathSound() {
+        if (!this.dead_sound_played) {
+            this.dead_sound.currentTime = 0;
+            this.dead_sound.play();
+            this.dead_sound_played = true;
+        }
+    }
+
+    /** Plays the long-idle animation and starts the snoring sound. */
+    handleLongIdleAnimation() {
+        this.playAnimation(this.IMAGES_IDLE_LONG);
+
+        if (this.snoring_sound.paused) {
+            this.snoring_sound.play();
+        }
+    }
+
+    /** Plays the regular idle animation and stops the snoring sound. */
+    handleIdleAnimation() {
+        this.playAnimation(this.IMAGES_IDLE);
+        this.snoring_sound.pause();
+        this.snoring_sound.currentTime = 0;
+    }
+
+
+    /** Processes the character's movement controls unless it is dead. */
+    handleCharacterMovement() {
+        if (this.isDead()) {
+            this.handleDeath();
+            return;
+        }
+
+        this.walking_sound.pause();
+        this.handleRightMovement();
+        this.handleLeftMovement();
+        this.handleJumpMovement();
+    }
+
+    /** Stops character sounds and disables movement controls after death. */
+    handleDeath() {
+        this.walking_sound.pause();
+        this.snoring_sound.pause();
+        this.world.keyboard.RIGHT = false;
+        this.world.keyboard.LEFT = false;
+        this.world.keyboard.SPACE = false;
+    }
+
+
+    /** Moves the character right when movement is allowed. */
+    handleRightMovement() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.otherDirection = false;
+            this.snoring_sound.pause();
+
+            if (!this.isAboveGround()) {
+                this.walking_sound.play();
+            }
+        }
+    }
+
+    /** Moves the character left when movement is allowed. */
+    handleLeftMovement() {
+        if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            this.otherDirection = true;
+            this.snoring_sound.pause();
+
+            if (!this.isAboveGround()) {
+                this.walking_sound.play();
+            }
+        }
+    }
+
+    /** Makes the character jump when the jump control is active. */
+    handleJumpMovement() {
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.walking_sound.pause();
+            this.jump_sound.currentTime = 0;
+            this.jump_sound.play();
+            this.jump();
+        }
+    }
+
+
+    /** Applies upward velocity to the character. */
     jump() {
         this.speedY = 30;
     }

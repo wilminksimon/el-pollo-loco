@@ -12,6 +12,11 @@ class ThrowableObject extends MovableObject {
     hasHitGround = false;
     splash_sound = new Audio('audio/bottleBreaksShort.wav');
 
+    /**
+     * Creates a throwable bottle at the specified position and starts its throw.
+     * @param {number} x - The initial horizontal position.
+     * @param {number} y - The initial vertical position.
+     */
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_SPLASH);
@@ -25,31 +30,46 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /** Launches the bottle and starts updating its movement. */
     throw() {
         this.speedY = 30;
 
         setStoppableInterval(() => {
             if (!this.hasHitGround) {
-                this.x += this.speedX * this.direction;
-
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-
-                if (this.y >= 350) {
-                    this.y = 350;
-                    this.hasHitGround = true;
-                    this.speedY = 0;
-
-                    this.splash_sound.currentTime = 0;
-                    this.splash_sound.play();
-
-                    this.currentImage = 0;
-                    this.animateSplash();
-                }
+                this.updateThrowMovement();
             }
         }, 25);
     }
 
+    /** Updates the bottle position and handles impact with the ground. */
+    updateThrowMovement() {
+        this.x += this.speedX * this.direction;
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+
+        if (this.y >= 350) {
+            this.handleGroundImpact();
+        }
+    }
+
+    /** Stops the bottle at ground level and starts its splash effect. */
+    handleGroundImpact() {
+        this.y = 350;
+        this.hasHitGround = true;
+        this.speedY = 0;
+        this.playSplashSound();
+        this.currentImage = 0;
+        this.animateSplash();
+    }
+
+    /** Plays the bottle splash sound from the beginning. */
+    playSplashSound() {
+        this.splash_sound.currentTime = 0;
+        this.splash_sound.play();
+    }
+
+
+    /** Plays the splash animation and removes the bottle when it finishes. */
     animateSplash() {
         this.currentImage = 0;
 

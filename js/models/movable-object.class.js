@@ -15,6 +15,7 @@ class MovableObject extends DrawableObject {
     };
 
 
+    /** Applies gravity to the object while it is airborne. */
     applyGravity() {
         setStoppableInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -24,6 +25,10 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
+    /**
+     * Checks whether the object is above the ground.
+     * @returns {boolean} Whether the object is considered airborne.
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
@@ -35,6 +40,11 @@ class MovableObject extends DrawableObject {
     }
 
     // character.isColliding(chicken);
+    /**
+     * Checks whether this object overlaps another object, accounting for offsets.
+     * @param {MovableObject} mo - The object to check against.
+     * @returns {boolean} Whether the objects are colliding.
+     */
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
@@ -42,6 +52,7 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
+    /** Reduces the object's energy and records the time of the hit. */
     hit() {
         let wasHurt = this.isHurt();
         this.energy -= 2;
@@ -56,6 +67,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /** Adds coins to the inventory, capped at 100. */
     collectCoin() {
         this.coins += 20;
 
@@ -64,6 +76,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /** Adds bottles to the inventory, capped at the inventory limit. */
     collectBottle() {
         this.bottles += 20;
 
@@ -72,16 +85,28 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Checks whether the object was hit within the last second.
+     * @returns {boolean} Whether the object is currently hurt.
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
         timepassed = timepassed / 1000; // Difference in s
         return timepassed < 1;
     }
 
+    /**
+     * Checks whether the object's energy has reached zero.
+     * @returns {boolean} Whether the object is dead.
+     */
     isDead() {
         return this.energy == 0;
     }
 
+    /**
+     * Displays the next frame from an animation sequence.
+     * @param {Array<string>} images - The image paths in the animation.
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -89,14 +114,17 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+    /** Moves the object to the right by its current speed. */
     moveRight() {
         this.x += this.speed;
     }
 
+    /** Moves the object to the left by its current speed. */
     moveLeft() {
         this.x -= this.speed;
     }
 
+    /** Applies upward velocity to the object. */
     jump() {
         this.speedY = 30;
     }

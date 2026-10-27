@@ -17,6 +17,7 @@ class ChickenSmall extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
+    /** Loads the small chicken assets and starts its movement and animation. */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -29,6 +30,7 @@ class ChickenSmall extends MovableObject {
         this.animate();
     }
 
+    /** Marks the small chicken as dead and removes it from the world after a delay. */
     die() {
         if (this.dead) return;
         this.dead = true;
@@ -40,7 +42,7 @@ class ChickenSmall extends MovableObject {
         }, 2000);
     }
 
-
+/** Moves the small chicken and plays its walking animation while it is alive. */
 animate() {
     setStoppableInterval(() => {
         if (!this.dead) {
