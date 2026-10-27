@@ -26,6 +26,9 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
         'img/2_character_pepe/3_jump/J-35.png',
+        'img/2_character_pepe/3_jump/J-35.png',
+        'img/2_character_pepe/3_jump/J-35.png',
+        'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
         'img/2_character_pepe/3_jump/J-37.png',
         'img/2_character_pepe/3_jump/J-38.png',
@@ -131,7 +134,7 @@ class Character extends MovableObject {
     animateCharacter() {
         setStoppableInterval(() => {
             this.handleCharacterAnimation();
-        }, 95);
+        }, 90);
     }
 
 
@@ -288,5 +291,6 @@ class Character extends MovableObject {
     /** Applies upward velocity to the character. */
     jump() {
         this.speedY = 30;
+        this.currentImage = 0;
     }
 }
