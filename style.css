@@ -226,7 +226,7 @@ button img {
 }
 
 
-@media only screen and (max-width: 900px) and (orientation: landscape) {
+@media only screen and (max-width: 1200px) {
     #touch-controls.active {
         display: flex;
         position: absolute;

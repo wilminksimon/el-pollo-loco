@@ -73,11 +73,12 @@ function startGame() {
 /** Shows or hides the touch controls based on the current screen orientation. */
 function showMobileControls() {
     let touchControls = document.getElementById('touch-controls');
-    let isMobileLandscape = window.matchMedia(
-        '(max-width: 900px) and (orientation: landscape)'
+
+    let isTouchDevice = window.matchMedia(
+        '(max-width: 1200px)'
     ).matches;
 
-    touchControls.classList.toggle('active', isMobileLandscape);
+    touchControls.classList.toggle('active', isTouchDevice);
 }
 
 
