@@ -1,4 +1,5 @@
 class World {
+    animationFrameId = null;
     gameOverShown = false;
     character = new Character();
     level = createLevel1();
@@ -86,7 +87,8 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
 
-                if (enemy instanceof Chicken || enemy instanceof ChickenSmall && !enemy.dead &&
+                if ((enemy instanceof Chicken || enemy instanceof ChickenSmall) &&
+                    !enemy.dead &&
                     this.character.speedY < 0 &&
                     this.character.y + this.character.height -
                     this.character.offset.bottom <
@@ -111,7 +113,8 @@ class World {
     checkCollisionBottleChicken() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (enemy instanceof Chicken || enemy instanceof ChickenSmall &&
+
+                if ((enemy instanceof Chicken || enemy instanceof ChickenSmall) &&
                     bottle.isColliding(enemy) &&
                     !bottle.removeFromWorld &&
                     !enemy.dead) {
@@ -212,10 +215,8 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
 
-        // Draw() wird immer wieder aufgerufen, um die Animation zu aktualisieren
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
+        this.animationFrameId = requestAnimationFrame(() => {
+            this.draw();
         });
     }
 
@@ -230,7 +231,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-       
+
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
