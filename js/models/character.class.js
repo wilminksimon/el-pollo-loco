@@ -75,6 +75,7 @@ class Character extends MovableObject {
     ]
 
     world;
+    gameWon = false;
     deadAnimationFinished = false;
     deadAnimationStarted = false;
     isFallingAfterDeath = false;
@@ -192,7 +193,7 @@ class Character extends MovableObject {
     handleLongIdleAnimation() {
         this.playAnimation(this.IMAGES_IDLE_LONG);
 
-        if (this.snoring_sound.paused) {
+        if (!this.gameWon && this.snoring_sound.paused) {
             this.snoring_sound.play();
         }
     }

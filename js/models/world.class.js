@@ -17,11 +17,11 @@ class World {
     bottle_sound = new Audio('audio/bottleCollect.ogg');
 
 
-/**
- * Creates the game world and starts its drawing and update loops.
- * @param {HTMLCanvasElement} canvas - The canvas used to render the world.
- * @param {Keyboard} keyboard - The controls used by the player.
- */
+    /**
+     * Creates the game world and starts its drawing and update loops.
+     * @param {HTMLCanvasElement} canvas - The canvas used to render the world.
+     * @param {Keyboard} keyboard - The controls used by the player.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -64,6 +64,10 @@ class World {
 
     /** Displays the win screen. */
     showWinScreen() {
+        this.character.gameWon = true;
+        this.character.snoring_sound.pause();
+        this.character.snoring_sound.currentTime = 0;
+
         document.getElementById('win-screen')
             .classList.remove('d-none');
     }
