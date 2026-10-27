@@ -36,7 +36,14 @@ function createLevel1() {
         ],
 
         [
-            new Cloud()
+            new Cloud(0, 1),
+            new Cloud(500, 2),
+            new Cloud(1000, 1),
+            new Cloud(1500, 2),
+            new Cloud(2000, 1),
+            new Cloud(2500, 2),
+            new Cloud(3000, 2),
+            new Cloud(3500, 2),
         ],
 
         [
