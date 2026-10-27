@@ -132,4 +132,5 @@ function closeDialog(dialogId) {
     document.getElementById(dialogId).classList.add('d-none');
 }
 
+document.addEventListener('contextmenu', event => event.preventDefault());
 
