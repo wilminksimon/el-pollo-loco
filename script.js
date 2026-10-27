@@ -2,7 +2,8 @@ let backgroundMusic = new Audio('audio/background-music.mp3');
 backgroundMusic.loop = true;
 backgroundMusic.volume = 0.2;
 
-let isMuted = false;
+let isMuted = localStorage.getItem('isMuted') === 'true';
+backgroundMusic.muted = isMuted;
 let gameSounds = [];
 
 function registerSound(sound) {
@@ -17,6 +18,7 @@ function playSound(sound) {
 
 function toggleMute() {
     isMuted = !isMuted;
+    localStorage.setItem('isMuted', isMuted);
     backgroundMusic.muted = isMuted;
     gameSounds.forEach(sound => {
         sound.muted = isMuted;
@@ -35,6 +37,22 @@ function toggleMute() {
     });
     document.activeElement.blur();
 }
+
+function updateMuteButtons() {
+    let buttons = [
+        document.getElementById('mute-button'),
+        document.getElementById('game-mute-button')
+    ];
+
+    buttons.forEach(button => {
+        let image = button.querySelector('img');
+        image.src = isMuted
+            ? 'img/9_intro_outro_screens/ui/volume-off.svg'
+            : 'img/9_intro_outro_screens/ui/volume-on.svg';
+    });
+}
+
+window.addEventListener('DOMContentLoaded', updateMuteButtons);
 
 function startGame() {
     document.getElementById('startScreen').style.display = 'none';
