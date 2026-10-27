@@ -85,10 +85,9 @@ class World {
         let endboss = this.level.enemies.find(
             enemy => enemy instanceof Endboss
         );
+
         return endboss &&
-            (!endboss.hadFirstContact ||
-                endboss.isEntering ||
-                endboss.isAlerting);
+            (endboss.isEntering || endboss.isAlerting);
     }
 
     canThrowBottle() {
