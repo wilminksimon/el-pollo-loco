@@ -53,19 +53,16 @@ class MovableObject extends DrawableObject {
     }
 
     /** Reduces the object's energy and records the time of the hit. */
-    hit() {
-        let wasHurt = this.isHurt();
-        this.energy -= 2;
-        if (this.energy < 0) {
-            this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-            if (!wasHurt && this instanceof Character) {
-                this.hurt_sound.currentTime = 0;
-                this.hurt_sound.play();
-            }
-        }
+hit() {
+    let wasHurt = this.isHurt();
+    this.energy = Math.max(0, this.energy - 2);
+    this.lastHit = Date.now();
+
+    if (!wasHurt && this instanceof Character && this.energy > 0) {
+        this.hurt_sound.currentTime = 0;
+        this.hurt_sound.play();
     }
+}
 
     /** Adds coins to the inventory, capped at 100. */
     collectCoin() {
@@ -100,7 +97,7 @@ class MovableObject extends DrawableObject {
      * @returns {boolean} Whether the object is dead.
      */
     isDead() {
-        return this.energy == 0;
+        return this.energy <= 0;
     }
 
     /**
