@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
   <!-- Arrow keys cluster: inverted-T layout (Up / Left-Down-Right), keycap frames + arrows -->
-  <path fill-rule="evenodd" fill="white" d="
+  <path fill-rule="evenodd" fill="black" d="
     M52 28 L76 28 Q81 28 81 33 L81 57 Q81 62 76 62 L52 62 Q47 62 47 57 L47 33 Q47 28 52 28 Z
     M53 32 L75 32 Q77 32 77 34 L77 54 Q77 56 75 56 L53 56 Q51 56 51 54 L51 34 Q51 32 53 32 Z
     M14 66 L38 66 Q43 66 43 71 L43 95 Q43 100 38 100 L14 100 Q9 100 9 95 L9 71 Q9 66 14 66 Z
@@ -10,8 +10,8 @@
     M90 66 L114 66 Q119 66 119 71 L119 95 Q119 100 114 100 L90 100 Q85 100 85 95 L85 71 Q85 66 90 66 Z
     M91 70 L113 70 Q115 70 115 72 L115 92 Q115 94 113 94 L91 94 Q89 94 89 92 L89 72 Q89 70 91 70 Z
   "/>
-  <polygon points="64,35 56,51 72,51" fill="white"/>
-  <polygon points="17,82 33,74 33,90" fill="white"/>
-  <polygon points="64,90 56,74 72,74" fill="white"/>
-  <polygon points="111,82 95,74 95,90" fill="white"/>
+  <polygon points="64,35 56,51 72,51" fill="black"/>
+  <polygon points="17,82 33,74 33,90" fill="black"/>
+  <polygon points="64,90 56,74 72,74" fill="black"/>
+  <polygon points="111,82 95,74 95,90" fill="black"/>
 </svg>
