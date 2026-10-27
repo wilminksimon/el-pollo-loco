@@ -95,7 +95,6 @@ function goToStartScreen() {
 
 
 function showControls() {
-    console.log('Steuerungsbutton wurde geklickt');
     document.getElementById('controls-dialog').classList.remove('d-none');
 }
 
