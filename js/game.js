@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let touchEventsBound = false;
 
 
 function init() {
@@ -68,6 +69,12 @@ window.addEventListener("keyup", (e) => {
 
 
 function bindTouchEvents() {
+        if (touchEventsBound) {
+        return;
+    }
+
+    touchEventsBound = true;
+    
     document.getElementById('touch-left')
         .addEventListener('touchstart', (e) => {
             e.preventDefault();
