@@ -228,11 +228,31 @@ class Character extends MovableObject {
         this.world.keyboard.SPACE = false;
     }
 
+    /** Character  ist not allowed to go to the Richt Side of the Endboss */
+    isBlockedByEndboss(nextX) {
+        let endboss = this.world.level.enemies.find(
+            enemy => enemy instanceof Endboss && !enemy.isDead
+        );
+        if (!endboss) {
+            return false;
+        }
+        let characterRight = nextX + this.width - this.offset.right;
+        let characterLeft = nextX + this.offset.left;
+        let endbossRight = endboss.x + endboss.width - endboss.offset.right;
+        let endbossLeft = endboss.x + endboss.offset.left;
+
+        return characterRight > endbossLeft &&
+            characterLeft < endbossRight;
+    }
 
     /** Moves the character right when movement is allowed. */
     handleRightMovement() {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-            this.moveRight();
+            let nextX = this.x + this.speed;
+
+            if (!this.isBlockedByEndboss(nextX)) {
+                this.moveRight();
+            }
             this.otherDirection = false;
             this.snoring_sound.pause();
 
@@ -264,7 +284,6 @@ class Character extends MovableObject {
             this.jump();
         }
     }
-
 
     /** Applies upward velocity to the character. */
     jump() {
