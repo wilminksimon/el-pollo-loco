@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
     height = 400;
     width = 250;
     y = 60;
-    speed = 15;
+    speed = 20;
     offset = {
         top: 60,
         bottom: 10,
@@ -134,7 +134,7 @@ class Endboss extends MovableObject {
     /** Plays the attack animation and advances the end boss toward the character. */
     attacking() {
         this.playAnimation(this.IMAGES_ATTACK);
-        if (this.x > world.character.x - 10) {
+        if (this.x > world.character.x - 40) {
             this.x -= this.speed;
         }
         if (this.currentImage < this.IMAGES_ATTACK.length) return;
@@ -144,10 +144,25 @@ class Endboss extends MovableObject {
     /** Plays the hurt animation and resumes attacking when it finishes. */
     hurt() {
         this.playAnimation(this.IMAGES_HURT);
+        this.moveDuringHurt();
+
         if (this.currentImage < this.IMAGES_HURT.length) return;
+
         this.isHurt = false;
-        this.isAttacking = true;
         this.currentImage = 0;
+
+        if (this.isChasing && this.x <= world.character.x + 200) {
+            this.isChasing = false;
+            this.isAttacking = true;
+        }
+    }
+
+    moveDuringHurt() {
+        if (this.isChasing && this.x > world.character.x + 200) {
+            this.x -= 5;
+        } else if (this.isAttacking && this.x > world.character.x - 40) {
+            this.x -= this.speed;
+        }
     }
 
     /** Plays the death animation and displays the win screen once complete. */

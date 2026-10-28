@@ -8,7 +8,7 @@ class World {
     keyboard;
     camera_x = 0;
     lastThrowTime = 0;
-    throwCooldown = 600;
+    throwCooldown = 750;
     statusbarHealth = new StatusbarHealth();
     statusbarCoin = new StatusbarCoin();
     statusbarBottle = new StatusbarBottle();

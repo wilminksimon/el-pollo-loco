@@ -61,7 +61,7 @@ applyGravity() {
     /** Reduces the object's energy and records the time of the hit. */
 hit() {
     let wasHurt = this.isHurt();
-    this.energy = Math.max(0, this.energy - 2);
+    this.energy = Math.max(0, this.energy - 5);
     this.lastHit = Date.now();
 
     if (!wasHurt && this instanceof Character && this.energy > 0) {
