@@ -146,3 +146,10 @@
         -webkit-user-select: none;
     }
 }
+
+@media (pointer: coarse) {
+    body {
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}

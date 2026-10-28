@@ -13,6 +13,8 @@ body {
     justify-content: center;
     min-height: 100vh;
     font-family: 'rye', Arial, Helvetica, sans-serif;
+        background-repeat: no-repeat;
+    background-size: cover;
 }
 
 canvas {
