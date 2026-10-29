@@ -64,14 +64,14 @@ class World {
     }
 
     /** Displays the win screen. */
-    showWinScreen() {
-        this.character.gameWon = true;
-        stopGame();
-        this.character.snoring_sound.pause();
-        this.character.snoring_sound.currentTime = 0;
-        document.getElementById('win-screen')
-            .classList.remove('d-none');
-    }
+showWinScreen() {
+    if (this.character.isDead() || this.gameOverShown) return;
+    this.character.gameWon = true;
+    this.character.snoring_sound.pause();
+    this.character.snoring_sound.currentTime = 0;
+    document.getElementById('game-over-screen').classList.add('d-none');
+    document.getElementById('win-screen').classList.remove('d-none');
+}
 
     /** Throws a bottle when the throw control is active and bottles remain. */
     checkThrowObjects() {
