@@ -13,61 +13,52 @@ function init() {
 }
 
 window.addEventListener("keydown", (e) => {
-
     keyboard.lastKeyPress = new Date().getTime();
 
-    if (e.keyCode == 39) {
-        keyboard.RIGHT = true;
+    switch (e.code) {
+        case "ArrowRight":
+            keyboard.RIGHT = true;
+            break;
+        case "ArrowLeft":
+            keyboard.LEFT = true;
+            break;
+        case "ArrowUp":
+            keyboard.UP = true;
+            break;
+        case "ArrowDown":
+            keyboard.DOWN = true;
+            break;
+        case "Space":
+            keyboard.SPACE = true;
+            break;
+        case "KeyD":
+            keyboard.D = true;
+            break;
     }
-
-    if (e.keyCode == 37) {
-        keyboard.LEFT = true;
-    }
-
-    if (e.keyCode == 38) {
-        keyboard.UP = true;
-    }
-
-    if (e.keyCode == 40) {
-        keyboard.DOWN = true;
-    }
-
-    if (e.keyCode == 32) {
-        keyboard.SPACE = true;
-    }
-
-    if (e.keyCode == 68) {
-        keyboard.D = true;
-    }
-})
+});
 
 window.addEventListener("keyup", (e) => {
-
-    if (e.keyCode == 39) {
-        keyboard.RIGHT = false;
+    switch (e.code) {
+        case "ArrowRight":
+            keyboard.RIGHT = false;
+            break;
+        case "ArrowLeft":
+            keyboard.LEFT = false;
+            break;
+        case "ArrowUp":
+            keyboard.UP = false;
+            break;
+        case "ArrowDown":
+            keyboard.DOWN = false;
+            break;
+        case "Space":
+            keyboard.SPACE = false;
+            break;
+        case "KeyD":
+            keyboard.D = false;
+            break;
     }
-
-    if (e.keyCode == 37) {
-        keyboard.LEFT = false;
-    }
-
-    if (e.keyCode == 38) {
-        keyboard.UP = false;
-    }
-
-    if (e.keyCode == 40) {
-        keyboard.DOWN = false;
-    }
-
-    if (e.keyCode == 32) {
-        keyboard.SPACE = false;
-    }
-
-    if (e.keyCode == 68) {
-        keyboard.D = false;
-    }
-})
-
+});
 
 
 
