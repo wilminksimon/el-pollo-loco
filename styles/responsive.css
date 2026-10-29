@@ -133,6 +133,13 @@
     .touch-jump {
         display: inline;
     }
+
+    #game-mute-button {
+        position: fixed;
+        top: max(12px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        z-index: 100;
+    }
 }
 
 @media (max-width: 550px) {
@@ -142,6 +149,10 @@
 
     #game-over-screen img {
         height: 105px;
+    }
+
+    #win-screen img {
+        height: 44px;
     }
 }
 
