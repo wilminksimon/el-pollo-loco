@@ -75,7 +75,7 @@ function showMobileControls() {
     let touchControls = document.getElementById('touch-controls');
 
     let isTouchDevice = window.matchMedia(
-        '(max-width: 1200px)'
+        '(pointer: coarse)'
     ).matches;
 
     touchControls.classList.toggle('active', isTouchDevice);

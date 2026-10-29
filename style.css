@@ -13,7 +13,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     font-family: 'rye', Arial, Helvetica, sans-serif;
-        background-repeat: no-repeat;
+    background-repeat: no-repeat;
     background-size: cover;
 }
 
@@ -224,5 +224,53 @@ button img {
 
 
 #touch-controls.active {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+}
+
+#touch-controls {
+    display: none;
+}
+
+#touch-controls.active {
     display: flex;
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.touch-left,
+.touch-right {
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+#touch-controls button {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    font-size: 22px;
+    border-radius: 12px;
+    opacity: 0.8;
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+.touch-throw {
+    display: none;
+}
+
+.touch-jump {
+    display: none;
 }

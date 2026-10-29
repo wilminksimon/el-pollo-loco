@@ -61,19 +61,6 @@
 
 
         <canvas id="canvas" width="720" height="480"></canvas>
-
-        <div id="touch-controls">
-            <div class="touch-left">
-                <button id="touch-left">◀</button>
-                <button id="touch-right">▶</button>
-            </div>
-
-            <div class="touch-right">
-                <button id="touch-jump">▲</button>
-                <button id="touch-throw">🍾</button>
-            </div>
-        </div>
-
         <button onclick="toggleMute()" id="game-mute-button"><img src="img/9_intro_outro_screens/ui/volume-on.svg"
                 alt="Mute"></button>
 
@@ -89,15 +76,35 @@
         </div>
     </div>
 
+    <div id="touch-controls">
+        <div class="touch-left">
+            <button id="touch-left">◀</button>
+            <button id="touch-right">▶</button>
+        </div>
+
+        <div class="touch-right">
+            <button id="touch-jump">▲</button>
+            <button id="touch-throw">🍾</button>
+        </div>
+    </div>
+
 
     <!-- Dialog für die Steuerung -->
     <div id="controls-dialog" class="dialog-overlay d-none" onclick="closeDialog('controls-dialog')">
         <div class="dialog-box" onclick="event.stopPropagation()">
             <button class="dialog-close" onclick="closeDialog('controls-dialog')">×</button>
             <h2>Steuerung</h2>
-            <p><strong>← / →</strong> - Nach links und rechts laufen</p>
-            <p><strong>Leertaste</strong> - Springen</p>
-            <p><strong>D</strong> - Flasche werfen</p>
+            <p><strong>◀ / ▶</strong> - Nach links und rechts laufen</p>
+            <p>
+                <strong class="keyboard-jump">Leertaste</strong>
+                <span class="touch-jump">▲</span>
+                - Springen
+            </p>
+            <p>
+                <strong class="keyboard-throw">D</strong>
+                <span class="touch-throw">🍾</span>
+                - Flasche werfen
+            </p>
         </div>
     </div>
 
