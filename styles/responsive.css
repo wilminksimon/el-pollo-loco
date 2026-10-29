@@ -153,3 +153,24 @@
         background-size: cover;
     }
 }
+
+@media (max-width: 550px) {
+    .game-over-screen button {
+        height: 28px;
+    }
+
+    #game-over-screen img {
+        height: 105px;
+    }
+}
+
+@media (max-width: 400px) {
+    .game-over-screen button {
+        height: 24px;
+        margin: 5px
+    }
+
+    #game-over-screen img {
+        height: 95px;
+    }
+}
