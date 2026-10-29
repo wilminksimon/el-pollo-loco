@@ -64,14 +64,14 @@ class World {
     }
 
     /** Displays the win screen. */
-showWinScreen() {
-    if (this.character.isDead() || this.gameOverShown) return;
-    this.character.gameWon = true;
-    this.character.snoring_sound.pause();
-    this.character.snoring_sound.currentTime = 0;
-    document.getElementById('game-over-screen').classList.add('d-none');
-    document.getElementById('win-screen').classList.remove('d-none');
-}
+    showWinScreen() {
+        if (this.character.isDead() || this.gameOverShown) return;
+        this.character.gameWon = true;
+        this.character.snoring_sound.pause();
+        this.character.snoring_sound.currentTime = 0;
+        document.getElementById('game-over-screen').classList.add('d-none');
+        document.getElementById('win-screen').classList.remove('d-none');
+    }
 
     /** Throws a bottle when the throw control is active and bottles remain. */
     checkThrowObjects() {
@@ -278,13 +278,11 @@ showWinScreen() {
     checkCollisionCharacterCoin() {
         for (let i = this.level.coin.length - 1; i >= 0; i--) {
             let coin = this.level.coin[i];
-
-            if (this.character.isColliding(coin)) {
+            if (this.character.isColliding(coin) &&
+                this.character.coins < this.character.maxCoinInventory) {
                 this.character.collectCoin();
-
                 this.coin_sound.play();
                 this.level.coin.splice(i, 1);
-
                 this.statusbarCoin.setPercentage(this.character.coins);
             }
         }

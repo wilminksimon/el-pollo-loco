@@ -71,13 +71,13 @@ hit() {
 }
 
     /** Adds coins to the inventory, capped at 100. */
-    collectCoin() {
-        this.coins += 20;
+collectCoin() {
+    this.coins += 20;
 
-        if (this.coins > 100) {
-            this.coins = 100;
-        }
+    if (this.coins > this.maxCoinInventory) {
+        this.coins = this.maxCoinInventory;
     }
+}
 
     /** Adds bottles to the inventory, capped at the inventory limit. */
     collectBottle() {
