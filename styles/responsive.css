@@ -166,3 +166,9 @@
         height: 95px;
     }
 }
+
+@media (max-height: 380px) {
+    #game-over-screen img {
+        height: 130px;
+    }
+}
