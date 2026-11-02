@@ -1,58 +1,22 @@
-class StatusbarEndboss extends DrawableObject {
+class StatusbarEndboss extends Bars {
 
-    IMAGES = [
-        'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
-        'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
-        'img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
-        'img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
-        'img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
-        'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
-    ];
-
-    percentage = 100;
     visible = false;
 
     /** Loads the end boss status images and initializes the bar. */
     constructor() {
         super();
+        this.IMAGES = [
+            'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
+            'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
+            'img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
+            'img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
+            'img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
+            'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
+        ];
         this.loadImages(this.IMAGES);
         this.setPercentage(100);
         this.x = 350;
         this.y = 10;
         this.width = 250;
-        this.height = 60;
     }
-
-
-    /**
-     * Updates the displayed end boss health.
-     * @param {number} percentage - The end boss health as a percentage.
-     */
-    setPercentage(percentage) {
-        this.percentage = percentage;
-        let path = this.IMAGES[this.resolveImageIndex()];
-        this.img = this.imageCache[path];
-    }
-
-    /**
-     * Selects the status image for the current end boss health.
-     * @returns {number} The index of the matching image.
-     */
-    resolveImageIndex() {
-        if (this.percentage <= 0) {
-            return 0;
-        } else if (this.percentage <= 20) {
-            return 1;
-        } else if (this.percentage <= 40) {
-            return 2;
-        } else if (this.percentage <= 60) {
-            return 3;
-        } else if (this.percentage <= 80) {
-            return 4;
-        } else {
-            return 5;
-        }
-    }
-
-
 }
