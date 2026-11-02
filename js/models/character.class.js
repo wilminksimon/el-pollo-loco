@@ -217,10 +217,10 @@ class Character extends MovableObject {
             return;
         }
 
-        this.walking_sound.pause();
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJumpMovement();
+        this.updateWalkingSound();
     }
 
     /** Stops character sounds and disables movement controls after death. */
@@ -259,10 +259,6 @@ class Character extends MovableObject {
             }
             this.otherDirection = false;
             this.snoring_sound.pause();
-
-            if (!this.isAboveGround()) {
-                this.walking_sound.play();
-            }
         }
     }
 
@@ -272,21 +268,37 @@ class Character extends MovableObject {
             this.moveLeft();
             this.otherDirection = true;
             this.snoring_sound.pause();
+        }
+    }
 
-            if (!this.isAboveGround()) {
+    updateWalkingSound() {
+        let isWalking =
+            (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x ||
+                this.world.keyboard.LEFT && this.x > 0) &&
+            !this.world.keyboard.SPACE &&
+            !this.isAboveGround();
+
+        if (isWalking) {
+            if (this.walking_sound.paused) {
                 this.walking_sound.play();
             }
+        } else {
+            this.walking_sound.pause();
         }
     }
 
     /** Makes the character jump when the jump control is active. */
     handleJumpMovement() {
-        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-            this.walking_sound.pause();
+    if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        this.walking_sound.pause();
+
+        if (this.jump_sound.paused) {
             this.jump_sound.currentTime = 0;
             this.jump_sound.play();
-            this.jump();
         }
+
+        this.jump();
+    }
     }
 
     /** Applies upward velocity to the character. */
