@@ -121,10 +121,15 @@ function restartGame() {
 /** Stops the game and returns to the start screen. */
 function goToStartScreen() {
     stopGame();
+
     document.getElementById('game-over-screen')
         .classList.add('d-none');
     document.getElementById('win-screen')
         .classList.add('d-none');
+
+    document.getElementById('touch-controls')
+        .classList.remove('active');
+
     document.getElementById('canvas').style.display = 'none';
     document.getElementById('game-mute-button').style.display = 'none';
     document.getElementById('startScreen').style.display = 'flex';
